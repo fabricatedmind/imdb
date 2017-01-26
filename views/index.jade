@@ -1,0 +1,26 @@
+extends layout
+
+block content
+  div.container.panel
+    div.row
+      div.col-md-3
+        h1 Movies
+      div.col-md-9
+        a(href='/edit/'+docs.movie._id) New movie  
+  div.container
+    - for movie in docs
+      div.row
+        div.col-md-4
+          p= movie.title
+        div.col-md-1
+          p= movie.year
+        div.col-md-1
+          
+          a(href="http://www.imdb.com/title/"+ movie.imdb, target="_blank") View
+        div.col-md-1
+          a.btn.btn-default.btn-sm(href='/edit/'+movie._id) Edit
+        div.col-md-1
+          a.btn.btn-default.btn-sm(href='/delete') Delete
+
+
+        

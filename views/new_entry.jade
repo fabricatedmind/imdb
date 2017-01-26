@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  div.container
+    form(action="/newEntry", method="POST")
+      div.container
+        div.form-group
+          Label Movie Title: 
+          input.form-control(type="text", name="title")
+        div.form-group
+          Label Year: 
+          input.form-control(type="text", name="year")
+        div.form-group
+          Label IMDB:
+          input.form-control(type="text", name="imdb")  
+        button.btn.btn-primary(type="submit") Add

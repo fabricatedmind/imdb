@@ -1,0 +1,81 @@
+var express = require('express');
+var router = express.Router();
+var mongoClient = require('mongodb').MongoClient;
+var id = require('mongodb').ObjectID;
+
+var uri = "mongodb://localhost:27017/imdb";
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  mongoClient.connect(uri, function(err, db){
+    var collection = db.collection('movies');
+    collection.find({}).toArray(function(err,docs){
+      if(err)throw err;
+      console.log("GET / " + docs);
+      res.render('index2',{ docs: docs});
+    });
+  });
+});
+
+router.put('/:id', function(req,res){
+  console.log("Inside PUT");
+  var edit = {
+    title: req.body.title,
+    year: req.body.year,
+    imdb: req.body.imdb
+  }
+  mongoClient.connect(uri, function(err,db){
+    if(err) throw err;
+    var collection = db.collection('movies');
+    collection.updateOne({
+      _id: req.params._id 
+    },{ 
+      $set: { edit } 
+    }, function(err, results){
+      if(err)throw err;
+      console.log(results);
+      res.redirect("/");
+    });
+  });
+}); 
+
+
+router.post('/newEntry', function(req,res){
+  mongoClient.connect(uri, function(err, db){
+    if(err)throw err;
+    var collection = db.collection('movies');
+    collection.insertOne({
+      'title': req.body.title,
+      'year': req.body.year,
+      'imdb': req.body.imdb
+    }, function(err, results){
+      console.log(results);
+    })
+  });
+  res.redirect("/");
+});
+
+router.get('/newEntry', function(req,res){
+  res.render('new_entry');
+});
+
+
+
+router.get('/edit/:id', function(req,res){
+  console.log("ID: "+req.params.id);
+  mongoClient.connect(uri, function(err,db){
+    if(err)throw err;
+    var collection = db.collection('movies');
+    collection.findOne({'_id': new id(req.params.id)}, function(err,doc){
+      if(err)throw err;
+      console.log("THE DOC: " +doc);
+      res.render('edit',{doc: doc});
+    });
+  });
+});
+
+
+
+
+
+module.exports = router;

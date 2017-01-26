@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  div.container
+    form(method="POST" action="/edit/"+doc._id+ "?_method=PUT")
+      <!--input(name="_method", value="PUT", type="hidden")-->
+      div.container
+        div.form-group
+          input.form-control(type="hidden", name="id", value=doc._id)
+          Label Movie Title:
+          input.form-control(type="text", name="title", value=doc.title)
+        div.form-group
+          Label Year:
+          input.form-control(type="text", name="year", value=doc.year)
+        div.form-group
+          Label IMDB:
+          input.form-control(type="text", name="imdb", value=doc.imdb)
+          br  
+          button.btn.btn-primary.btn-sm(type="Submit") Save

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  div.container
+    form(method="POST" action="/delete/"+doc._id+ "?_method=DELETE")
+      <!--input(name="_method", value="PUT", type="hidden")-->
+      div.container
+        div.form-group
+          input.form-control(type="hidden", name="id", value=doc._id)
+          Label Movie Title:
+          input.form-control(type="text", name="title", value=doc.title, readonly)
+        div.form-group
+          Label Year:
+          input.form-control(type="text", name="year", value=doc.year, readonly)
+        div.form-group
+          Label IMDB:
+          input.form-control(type="text", name="imdb", value=doc.imdb, readonly)
+          br  
+          button.btn.btn-danger.btn-sm(type="Submit") Delete
